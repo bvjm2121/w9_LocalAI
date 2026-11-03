@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三角函數教學與運用｜國立清華大學數理教育研究所 研究生 陳紫妍</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "PingFang TC", "Microsoft JhengHei", "Heiti TC", "Noto Sans TC", "Segoe UI", sans-serif;
+    background: #f4f6fb;
+    color: #1f2937;
+    line-height: 1.75;
+  }
+  /* 頁首 */
+  .site-header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 60%, #60a5fa 100%);
+    color: #fff;
+    padding: 2.5rem 1.5rem 2rem;
+    text-align: center;
+    border-bottom: 8px solid #f59e0b;
+    box-shadow: 0 4px 12px rgba(30,58,138,0.18);
+  }
+  .site-header h1 { font-size: 2rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 0.45rem; }
+  .author { font-size: 1.25rem; font-weight: 800; color: #fde68a; margin-bottom: 0.25rem; display:block; }
+  .subtitle { font-size: 1rem; opacity: 0.95; max-width: 720px; margin: 0 auto; }
+  .model-note { display:inline-block; margin-top:0.7rem; font-size:0.9rem; background:rgba(255,255,255,0.15); padding:0.35rem 0.9rem; border-radius:20px; border:1px solid rgba(255,255,255,0.35); }
+
+  /* 分頁籤 */
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .tab-btn {
+    flex: 1 1 auto;
+    min-width: 150px;
+    padding: 0.95rem 0.55rem;
+    border: none;
+    border-bottom: 3px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #4b5563;
+    transition: all 0.18s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .tab-btn:hover { background: #eff6ff; color: #1e40af; }
+  .tab-btn.active { color: #1e40af; border-bottom: 3px solid #2563eb; background: #dbeafe; }
+
+  /* 主內容 */
+  .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+  .tab-panel { display: none; animation: fadeIn 0.35s ease; }
+  .tab-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(10px);} to { opacity:1; transform: translateY(0);} }
+
+  h2 { font-size: 1.5rem; color: #1e3a8a; margin: 1.6rem 0 0.7rem; border-bottom: 2px solid #bfdbfe; padding-bottom: 0.4rem; }
+  h3 { font-size: 1.18rem; color: #1e40af; margin: 1.2rem 0 0.55rem; }
+  p { margin: 0.55rem 0; }
+  ul, ol { margin: 0.5rem 0 1rem 1.6rem; }
+  li { margin: 0.25rem 0; }
+  .lead { font-size: 1.05rem; color: #374151; }
+
+  /* 公式卡 */
+  .formula {
+    background: #f0f9ff;
+    border-left: 5px solid #2563eb;
+    padding: 0.95rem 1.2rem;
+    margin: 1rem 0;
+    border-radius: 6px;
+    font-size: 1.12rem;
+    font-weight: 700;
+    text-align: center;
+    color: #1e3a8a;
+  }
+  .formula .label { display:block; font-size: 0.82rem; font-weight: 600; color: #6b7280; margin-bottom: 0.3rem; }
+  .formula-inline { display:inline-block; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background:#eef4ff; padding:0.05rem 0.35rem; border-radius:4px; }
+
+  .card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 1.25rem 1.35rem;
+    margin: 1.1rem 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+
+  /* 按鈕 */
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.52rem 0.95rem; border: 1px solid #2563eb; background: #2563eb;
+    color: #fff; border-radius: 6px; cursor: pointer; font-family: inherit;
+    font-size: 0.92rem; font-weight: 700; transition: background 0.18s, transform 0.1s;
+  }
+  .btn:hover { background: #1d4ed8; }
+  .btn:active { transform: translateY(1px); }
+  .btn-outline { background: #fff; color: #2563eb; }
+  .btn-outline:hover { background: #eff6ff; }
+  .btn-sm { padding: 0.4rem 0.75rem; font-size: 0.85rem; }
+  .copy-row { margin-top: 0.5rem; text-align: left; }
+  .copy-tip { font-size: 0.82rem; color: #6b7280; margin-top: 0.25rem; }
+
+  /* SVG 與圖表 */
+  .svg-wrap { text-align: center; margin: 1rem 0; }
+  .svg-wrap svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+  canvas.sine-canvas { max-width: 100%; height: auto; border: 1px solid #d1d5db; border-radius: 8px; background: #fff; display:block; margin:0 auto; }
+
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; background: #fff; font-size: 0.95rem; }
+  th, td { border: 1px solid #d1d5db; padding: 0.62rem 0.8rem; text-align: center; }
+  th { background: #e0e7ff; font-weight: 700; color: #1e3a8a; }
+  tr:nth-child(even) td { background: #fafbff; }
+
+  pre { background: #0f172a; color: #e2e8f0; padding: 1rem 1.1rem; border-radius: 8px; overflow-x: auto; font-size: 0.88rem; line-height: 1.55; margin: 0.8rem 0; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+
+  /* 互動表單 */
+  .control-row { display:flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin: 0.7rem 0; }
+  .control-row label { font-size: 0.95rem; font-weight: 600; color: #374151; }
+  input[type="number"], input[type="text"], select {
+    padding: 0.48rem 0.65rem; font-size: 1rem; border: 1px solid #cbd5e1; border-radius: 6px; font-family: inherit;
+  }
+  input[type="number"], input[type="text"] { width: 110px; }
+  select { width: 150px; }
+
+  /* 測驗 */
+  .quiz { margin: 0.8rem 0; }
+  .quiz .q { background:#fff; border:1px solid #e5e7eb; border-radius:8px; padding:1rem 1.15rem; margin:0.7rem 0; }
+  .quiz label { display:block; margin: 0.42rem 0; cursor: pointer; font-size: 0.98rem; }
+  .quiz input { margin-right: 0.55rem; }
+  .feedback { margin-top: 0.65rem; font-weight: 700; min-height: 1.2rem; }
+  .feedback.correct { color: #15803d; }
+  .feedback.wrong { color: #dc2626; }
+
+  .interactive { text-align: center; }
+
+  footer { margin-top: 2.5rem; padding: 1.6rem; border-top: 1px solid #e5e7eb; color: #6b7280; font-size: 0.9rem; text-align: center; line-height: 1.8; }
+
+  @media (max-width: 640px) {
+    .tab-btn { min-width: auto; flex: 1 1 50%; font-size: 0.82rem; padding: 0.75rem 0.3rem; }
+    .site-header h1 { font-size: 1.55rem; }
+    .control-row { flex-direction: column; align-items: stretch; }
+    input[type="number"], input[type="text"], select { width: auto; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>三角函數教學與運用</h1>
+  <span class="author">國立清華大學 數理教育研究所 研究生 陳紫妍</span>
+  <p class="subtitle">從角度定義到實際計算，一步步帶領新手學會三角函數並成功應用。</p>
+  <div class="model-note">🤖 製作模型：第一模型 Gemma 4 26B / 第二模型 Qwen 3</div>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" data-target="unit-home">首頁</button>
+  <button class="tab-btn" data-target="unit-1">單元 1：角度與三角函數定義</button>
+  <button class="tab-btn" data-target="unit-2">單元 2：單位圓與弧度</button>
+  <button class="tab-btn" data-target="unit-3">單元 3：三角恆等式</button>
+  <button class="tab-btn" data-target="unit-4">單元 4：三角函數圖像</button>
+  <button class="tab-btn" data-target="unit-5">單元 5：實際運用與應用題</button>
+  <button class="tab-btn" data-target="unit-6">單元 6：互動計算機</button>
+  <button class="tab-btn" data-target="unit-7">製作說明與 Prompt</button>
+</nav>
+
+<main class="container">
+
+  <!-- ========== 首頁 ========== -->
+  <section id="unit-home" class="tab-panel active">
+    <div class="card">
+      <h2>歡迎來到三角函數教學</h2>
+      <p>你好！我是國立清華大學數理教育研究所研究生 <strong>陳紫妍</strong>。本教材專為剛開始接觸三角函數的同學設計，不需要任何先備知識，從「什麼是角度」開始，一路練到可以獨立解決高度測量等實際應用題。</p>
+    </div>
+
+    <div class="card">
+      <h3>🎯 學習目標</h3>
+      <ul>
+        <li>理解角度、度數與弧度的關係，並能互相換算。</li>
+        <li>掌握直角三角形中 <span class="formula-inline">sin、cos、tan</span> 的定義與 SOH CAH TOA 口訣。</li>
+        <li>能正確計算邊長與角度，並使用反三角函數求角。</li>
+        <li>熟悉基本三角恆等式（如 <span class="formula-inline">sin²θ + cos²θ = 1</span>）並能進行簡單證明。</li>
+        <li>能畫出並解讀正餘弦函數圖像（週期、振幅、相位）。</li>
+        <li>將三角函數應用於實際問題，例如樹高測量、影子長度。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>🗺️ 單元導覽</h3>
+      <table>
+        <tr><th style="text-align:left">單元</th><th style="text-align:left">主題</th><th style="text-align:left">重點互動</th></tr>
+        <tr><td>單元 1</td><td>角度與三角函數定義</td><td>直角三角形動態繪圖、對邊/鄰邊快速計算</td></tr>
+        <tr><td>單元 2</td><td>單位圓與弧度</td><td>可點擊的單位圓，即時顯示 (cos θ, sin θ)</td></tr>
+        <tr><td>單元 3</td><td>三角恆等式</td><td>恆等式小測驗（即時回饋）</td></tr>
+        <tr><td>單元 4</td><td>三角函數圖像</td><td>正弦波 SVG 動畫、圖像特徵說明</td></tr>
+        <tr><td>單元 5</td><td>實際運用與應用題</td><td>樹高測量計算機</td></tr>
+        <tr><td>單元 6</td><td>互動計算機</td><td>三角函數值計算、反三角函數、三角形解題器</td></tr>
+        <tr><td>單元 7</td><td>製作說明與 Prompt</td><td>說明使用的 AI 模型與製作這個教材的 Prompt</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>🖱️ 如何使用本教材</h3>
+      <ol>
+        <li>點選上方分頁籤切換單元，依序學習。</li>
+        <li>每個單元內的範例請手動算一次，再用互動計算機驗證答案。</li>
+        <li>公式區塊旁的 <strong>📋 複製</strong> 按鈕可將公式一次複製到剪貼簿，方便做筆記。</li>
+        <li>完成所有單元後，建議回到「單元 6 互動計算機」做綜合練習。</li>
+      </ol>
+    </div>
+
+    <div class="card" style="background:#fffbeb; border-color:#f59e0b;">
+      <h3>📌 製作說明（簡要）</h3>
+      <p>本教材由 AI 協助製作，使用了兩個語言模型：<strong>第一模型 Gemma 4 26B</strong> 與 <strong>第二模型 Qwen 3</strong>。所有圖形皆以 SVG 純程式碼內嵌於本 HTML 檔中，離線開啟即可顯示，<strong>未引用任何外部圖片 URL</strong>。完整的製作 Prompt 與流程請見「單元 7：製作說明與 Prompt」。</p>
+    </div>
+  </section>
+
+  <!-- ========== 單元 1 ========== -->
+  <section id="unit-1" class="tab-panel">
+    <h2>單元 1：角度與三角函數定義</h2>
+
+    <div class="card">
+      <h3>1.1 什麼是角度？</h3>
+      <p>角度是描述「旋轉多少」的量。日常最常用的是 <strong>度數（°）</strong>，一整圈是 360°；直角是 90°，平角是 180°。</p>
+      <p>在數學與科學計算中，也常使用 <strong>弧度（rad）</strong>（單元 2 會詳細介紹）。剛開始學習時，先以度數為主即可。</p>
+    </div>
+
+    <div class="card">
+      <h3>1.2 直角三角形的三邊</h3>
+      <p>在直角三角形中，針對銳角 θ，三邊的名稱如下：</p>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 260 190" width="320">
+          <rect x="40" y="150" width="180" height="0" fill="none"/>
+          <path d="M 50 150 L 230 150 L 230 60 Z" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5"/>
+          <path d="M 220 150 L 220 140 L 230 140" fill="#2563eb"/>
+          <text x="55" y="143" font-size="13" fill="#1e3a8a" font-weight="700">θ</text>
+          <text x="140" y="166" text-anchor="middle" font-size="13" fill="#374151">鄰邊（adjacent）</text>
+          <text x="238" y="105" font-size="13" fill="#374151" text-anchor="middle">對邊（opposite）</text>
+          <text x="145" y="70" font-size="13" fill="#374151" text-anchor="middle">斜邊（hypotenuse）</text>
+          <text x="60" y="138" font-size="13" fill="#1e40af" font-weight="700">90°</text>
+        </svg>
+      </div>
+      <p class="copy-tip">💡 記憶口訣：對邊是「跟角 θ 相對」的那條邊；鄰邊是「跟角 θ 鄰接」的直角邊；斜邊永遠是直角對邊，也是最長的邊。</p>
+    </div>
+
+    <div class="card">
+      <h3>1.3 三個基本三角函數</h3>
+      <div class="formula"><span class="label">正弦</span>sin θ = 對邊 ÷ 斜邊</div>
+      <div class="formula"><span class="label">餘弦</span>cos θ = 鄰邊 ÷ 斜邊</div>
+      <div class="formula"><span class="label">正切</span>tan θ = 對邊 ÷ 鄰邊</div>
+      <div class="copy-row"><button class="btn btn-sm" onclick="copyText(this,'sin θ = 對邊 / 斜邊\ncos θ = 鄰邊 / 斜邊\ntan θ = 對邊 / 鄰邊')">📋 複製三個定義公式</button></div>
+      <div class="copy-tip">SOH CAH TOA：Sine＝Opposite/Hypotenuse；Cosine＝Adjacent/Hypotenuse；Tangent＝Opposite/Adjacent。</div>
+    </div>
+
+    <div class="card">
+      <h3>1.4 範例計算</h3>
+      <p>已知一個直角三角形，<strong>斜邊 = 10 cm</strong>，角 <strong>θ = 30°</strong>，求「對邊」長度。</p>
+      <div class="formula">對邊 = 斜邊 × sin θ = 10 × sin 30° = 10 × 0.5 = <strong>5 cm</strong></div>
+      <p>同理，鄰邊 = 10 × cos 30° ≈ 10 × 0.8660 = <strong>8.66 cm</strong>。</p>
+    </div>
+
+    <div class="card interactive">
+      <h3>1.5 互動練習：輸入角度與斜邊，自動計算對邊與鄰邊</h3>
+      <div class="control-row">
+        <label>角度 θ：<input type="number" id="ex1-angle" value="30" step="1"> °</label>
+        <label>斜邊長度：<input type="number" id="ex1-hyp" value="10" step="0.1"> cm</label>
+        <button class="btn" onclick="calcEx1()">計算並繪圖</button>
+      </div>
+      <div id="ex1-result" class="formula"></div>
+      <div class="svg-wrap">
+        <svg id="ex1-svg" viewBox="0 0 260 190" width="340">
+          <path id="ex1-path" d="M 50 150 L 230 150 L 230 90 Z" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5"/>
+          <path d="M 220 150 L 220 140 L 230 140" fill="#2563eb"/>
+          <text x="55" y="143" font-size="14" fill="#1e3a8a" font-weight="700">θ</text>
+          <text x="140" y="166" text-anchor="middle" font-size="13" fill="#374151">鄰邊</text>
+          <text x="238" y="120" font-size="13" fill="#374151" text-anchor="middle">對邊</text>
+          <text x="148" y="78" font-size="13" fill="#374151" text-anchor="middle">斜邊</text>
+          <text id="ex1-label" x="60" y="138" font-size="13" fill="#1e40af" font-weight="700">θ = 30°</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 單元 2 ========== -->
+  <section id="unit-2" class="tab-panel">
+    <h2>單元 2：單位圓與弧度</h2>
+
+    <div class="card">
+      <h3>2.1 什麼是弧度？</h3>
+      <p><strong>1 弧度</strong>的定義：圓心角所對應的弧長等於圓的半徑時，該圓心角為 1 弧度。</p>
+      <p>一整圈圓周長是 2πr，對應的圓心角就是 <strong>2π 弧度 = 360°</strong>。因此：</p>
+      <div class="formula">弧度 = 角度 × π ÷ 180</div>
+      <div class="formula">角度 = 弧度 × 180 ÷ π</div>
+      <div class="copy-row"><button class="btn btn-sm" onclick="copyText(this,'弧度 = 角度 × π / 180\n角度 = 弧度 × 180 / π')">📋 複製換算公式</button></div>
+      <p>常見換算：30° = π/6，45° = π/4，60° = π/3，90° = π/2，180° = π。</p>
+    </div>
+
+    <div class="card">
+      <h3>2.2 單位圓：sin 與 cos 的幾何意義</h3>
+      <p>在半徑為 1 的圓（單位圓）上，任意點 P 的座標就是 <strong>(cos θ, sin θ)</strong>：</p>
+      <div class="svg-wrap">
+        <svg id="unitCircle" viewBox="-1.45 -1.6 2.9 2.9" width="360" height="360" style="border:1px solid #d1d5db; border-radius:50%; background:#fbfdff; cursor:crosshair;" onclick="handleCircleClick(event)">
+          <defs>
+            <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M 0 0 L 8 3 L 0 6 Z" fill="#2563eb"/>
+            </marker>
+          </defs>
+          <circle cx="0" cy="0" r="1" fill="none" stroke="#2563eb" stroke-width="2"/>
+          <line x1="-1.05" y1="0" x2="1.05" y2="0" stroke="#9ca3af" stroke-width="1"/>
+          <line x1="0" y1="-1.05" x2="0" y2="1.05" stroke="#9ca3af" stroke-width="1"/>
+          <circle id="ucPoint" cx="1" cy="0" r="0.075" fill="#dc2626"/>
+          <line id="ucLine" x1="0" y1="0" x2="1" y2="0" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow)"/>
+          <text id="ucText" x="1.03" y="-0.12" font-size="13" fill="#1f2937" font-weight="700">(1, 0)</text>
+          <text id="ucDeg" x="0" y="1.32" text-anchor="middle" font-size="14" fill="#1e40af" font-weight="700">θ = 0°</text>
+        </svg>
+      </div>
+      <div id="uc-info" class="formula" style="max-width:340px; margin:0.75rem auto 0;">cos θ = 1， sin θ = 0</div>
+      <p class="copy-tip">👉 點擊圓上的任意位置，即可看見該點的座標（cos θ, sin θ）與對應角度。</p>
+    </div>
+
+    <div class="card">
+      <h3>2.3 特殊角三角函數值表</h3>
+      <table>
+        <tr><th>角度</th><th>0°</th><th>30°</th><th>45°</th><th>60°</th><th>90°</th></tr>
+        <tr><td>sin θ</td><td>0</td><td>1/2</td><td>√2/2</td><td>√3/2</td><td>1</td></tr>
+        <tr><td>cos θ</td><td>1</td><td>√3/2</td><td>√2/2</td><td>1/2</td><td>0</td></tr>
+        <tr><td>tan θ</td><td>0</td><td>√3/3</td><td>1</td><td>√3</td><td>無定義</td></tr>
+      </table>
+      <p class="copy-tip">提示：tan 90° 因為 cos 90° = 0（分母為 0），所以無定義。</p>
+    </div>
+  </section>
+
+  <!-- ========== 單元 3 ========== -->
+  <section id="unit-3" class="tab-panel">
+    <h2>單元 3：三角恆等式</h2>
+
+    <div class="card">
+      <h3>3.1 基本三角恆等式</h3>
+      <div class="formula"><span class="label">平方和公式</span>sin²θ + cos²θ = 1</div>
+      <div class="formula"><span class="label">定義關係</span>tan θ = sin θ ÷ cos θ</div>
+      <div class="formula"><span class="label">互補關係</span>sin(90° − θ) = cos θ， cos(90° − θ) = sin θ</div>
+      <div class="copy-row"><button class="btn btn-sm" onclick="copyText(this,'sin²θ + cos²θ = 1\ntan θ = sin θ / cos θ\nsin(90° − θ) = cos θ\ncos(90° − θ) = sin θ')">📋 複製基本恆等式</button></div>
+    </div>
+
+    <div class="card">
+      <h3>3.2 加法公式</h3>
+      <div class="formula">sin(A ± B) = sin A cos B ± cos A sin B</div>
+      <div class="formula">cos(A ± B) = cos A cos B ∓ sin A sin B</div>
+      <div class="copy-row"><button class="btn btn-sm" onclick="copyText(this,'sin(A ± B) = sin A cos B ± cos A sin B\ncos(A ± B) = cos A cos B ∓ sin A sin B')">📋 複製加法公式</button></div>
+    </div>
+
+    <div class="card">
+      <h3>3.3 雙角公式</h3>
+      <div class="formula">sin 2θ = 2 sin θ cos θ</div>
+      <div class="formula">cos 2θ = cos²θ − sin²θ = 2cos²θ − 1 = 1 − 2sin²θ</div>
+      <div class="copy-row"><button class="btn btn-sm" onclick="copyText(this,'sin 2θ = 2 sin θ cos θ\ncos 2θ = cos²θ − sin²θ = 2cos²θ − 1 = 1 − 2sin²θ')">📋 複製雙角公式</button></div>
+    </div>
+
+    <div class="card">
+      <h3>3.4 證明範例：為什麼 sin²θ + cos²θ = 1？</h3>
+      <p>以單位圓上的點 P(cos θ, sin θ) 為例，該點到圓心的距離等於半徑 1，根據勾股定理：</p>
+      <div class="formula">(cos θ)² + (sin θ)² = 1²，即 cos²θ + sin²θ = 1。</div>
+      <p>這個恆等式對「所有角度」都成立，是後續化簡與證明的最重要基礎。</p>
+    </div>
+
+    <div class="card quiz">
+      <h3>3.5 小測驗：選出正確的恆等式</h3>
+      <div class="q" id="q1">
+        <p>1. 對於任意角 θ，下列何者恆成立？</p>
+        <label><input type="radio" name="q1" value="a"> sin θ + cos θ = 1</label>
+        <label><input type="radio" name="q1" value="b"> sin²θ + cos²θ = 1</label>
+        <label><input type="radio" name="q1" value="c"> tan θ = sin θ + cos θ</label>
+        <button class="btn btn-outline btn-sm" onclick="checkQuiz('q1','b')">檢查答案</button>
+        <div id="q1-fb" class="feedback"></div>
+      </div>
+      <div class="q" id="q2">
+        <p>2. 若 θ = 60°，則 cos 2θ 等於多少？（使用 cos 2θ = 2cos²θ − 1）</p>
+        <label><input type="radio" name="q2" value="a"> −0.5</label>
+        <label><input type="radio" name="q2" value="b"> 0.5</label>
+        <label><input type="radio" name="q2" value="c"> 1</label>
+        <button class="btn btn-outline btn-sm" onclick="checkQuiz('q2','a')">檢查答案</button>
+        <div id="q2-fb" class="feedback"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 單元 4 ========== -->
+  <section id="unit-4" class="tab-panel">
+    <h2>單元 4：三角函數圖像</h2>
+
+    <div class="card">
+      <h3>4.1 y = sin x 的圖像</h3>
+      <p>正弦函數 y = sin x 的圖像是一個週期性波形：</p>
+      <div class="interactive">
+        <canvas id="sineCanvas" class="sine-canvas" width="860" height="240"></canvas>
+      </div>
+      <ul>
+        <li><strong>週期</strong>：2π（約 6.28），即圖形每 2π 重複一次。</li>
+        <li><strong>振幅</strong>：1（從中線到最高點的距離）。</li>
+        <li><strong>零點</strong>：x = 0, π, 2π, …（即 kπ）。</li>
+        <li><strong>最大值</strong>：1（於 π/2, 5π/2, …）；<strong>最小值</strong>：−1（於 3π/2, …）。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>4.2 y = cos x 與 y = tan x</h3>
+      <ul>
+        <li><strong>y = cos x</strong>：與 sin 圖像長得一樣，只是向左平移 π/2（或說向右平移 π/2 得負向版本）。cos 0 = 1，在 y 軸上的截距為 1。</li>
+        <li><strong>y = tan x</strong>：週期為 π，在 x = π/2 + kπ 處有「漸近線」（函數值趨向正負無窮大），因為 cos x = 0 時 tan x 無定義。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>4.3 變形函數 y = A sin(ωx + φ) + k</h3>
+      <table>
+        <tr><th style="text-align:left">參數</th><th style="text-align:left">意義</th></tr>
+        <tr><td>A</td><td>振幅（波高，|A|）</td></tr>
+        <tr><td>ω</td><td>角頻率，週期 T = 2π ÷ ω</td></tr>
+        <tr><td>φ</td><td>相位（水平平移方向與幅度）</td></tr>
+        <tr><td>k</td><td>垂直平移（中線高度）</td></tr>
+      </table>
+      <p class="copy-tip">例如 y = 2 sin(3x) 的振幅是 2，週期是 2π ÷ 3。</p>
+    </div>
+  </section>
+
+  <!-- ========== 單元 5 ========== -->
+  <section id="unit-5" class="tab-panel">
+    <h2>單元 5：實際運用與應用題</h2>
+
+    <div class="card">
+      <h3>5.1 測量樹木高度（影子／仰角法）</h3>
+      <p>站在樹前，量好與樹的水平距離 d，測量從眼睛到樹頂的仰角 θ，再加上觀測者的眼睛高度 h，即可求出樹高：</p>
+      <div class="formula">樹上部分高度 = d × tan θ</div>
+      <div class="formula">總樹高 = d × tan θ + h</div>
+      <div class="copy-row"><button class="btn btn-sm" onclick="copyText(this,'樹上高度 = 距離 × tan θ\n總樹高 = 距離 × tan θ + 觀測者身高')">📋 複製樹高公式</button></div>
+    </div>
+
+    <div class="card">
+      <h3>5.2 範例解析</h3>
+      <p>小明站在樹前 <strong>10 米</strong> 處，測得仰角 <strong>35°</strong>，小明眼睛高度 <strong>1.6 米</strong>，求樹高。</p>
+      <div class="formula">tan 35° ≈ 0.7002</div>
+      <div class="formula">樹上部分 = 10 × 0.7002 ≈ 7.00 米</div>
+      <div class="formula">總高 = 7.00 + 1.6 = <strong>8.60 米</strong></div>
+      <p>所以這棵樹大約高 <strong>8.6 米</strong>。</p>
+    </div>
+
+    <div class="card interactive">
+      <h3>5.3 互動練習：計算樹高</h3>
+      <div class="control-row">
+        <label>觀測距離 d (m)：<input type="number" id="h-dist" value="10" step="0.1"></label>
+        <label>仰角 θ (°)：<input type="number" id="h-angle" value="35" step="0.1"></label>
+        <label>眼睛高度 h (m)：<input type="number" id="h-eye" value="1.6" step="0.1"></label>
+        <button class="btn" onclick="calcHeight()">計算樹高</button>
+      </div>
+      <div id="h-result" class="formula"></div>
+    </div>
+
+    <div class="card">
+      <h3>5.4 練習題</h3>
+      <ol>
+        <li>一棵樹在陽光下投下 6 米長的影子，陽光與地面的夾角為 40°，樹有多高？（提示：tan 40° = 樹高 ÷ 影子長）</li>
+        <li>從一座塔底 50 米處望上去，仰角為 25°，塔高約多少？（不計觀測者身高）</li>
+      </ol>
+      <div class="copy-row"><button class="btn btn-outline btn-sm" onclick="alert('參考答案：1. 約 5.03 米（6 × tan 40°）；2. 約 23.31 米（50 × tan 25°）。')">查看參考答案</button></div>
+    </div>
+  </section>
+
+  <!-- ========== 單元 6 ========== -->
+  <section id="unit-6" class="tab-panel">
+    <h2>單元 6：互動計算機</h2>
+
+    <div class="card interactive">
+      <h3>6.1 三角函數數值計算機</h3>
+      <p>輸入角度，立即得到 sin、cos、tan 的數值。</p>
+      <div class="control-row">
+        <label>角度：<input type="number" id="calc-angle" value="45" step="0.01"></label>
+        <label>單位：<select id="calc-unit"><option value="deg">度數 (°)</option><option value="rad">弧度 (rad)</option></select></label>
+        <button class="btn" onclick="calcValues()">計算</button>
+      </div>
+      <div id="calc-result" class="formula"></div>
+    </div>
+
+    <div class="card interactive">
+      <h3>6.2 反三角函數計算機（求角度）</h3>
+      <p>已知 sin 值，求對應的角度 θ = arcsin 值（輸入範圍 −1 到 1）。</p>
+      <div class="control-row">
+        <label>sin θ：<input type="number" id="asin-val" value="0.5" step="0.01"></label>
+        <button class="btn" onclick="calcAsin()">計算 θ</button>
+      </div>
+      <div id="asin-result" class="formula"></div>
+    </div>
+
+    <div class="card interactive">
+      <h3>6.3 直角三角形解題器</h3>
+      <p>輸入斜邊 c 與一個銳角 θ，自動求出對邊 a 與鄰邊 b，並繪製示意圖。</p>
+      <div class="control-row">
+        <label>斜邊 c：<input type="number" id="tri-c" value="10" step="0.1"></label>
+        <label>角 θ (°)：<input type="number" id="tri-a" value="30" step="0.1"></label>
+        <button class="btn" onclick="calcTriangle()">計算並繪圖</button>
+      </div>
+      <div id="tri-result" class="formula"></div>
+      <div class="svg-wrap">
+        <svg id="triSvg" viewBox="0 0 260 200" width="340">
+          <path id="triPath" d="M 50 170 L 220 170 L 220 100 Z" fill="#eff6ff" stroke="#1e40af" stroke-width="2.5"/>
+          <path d="M 210 170 L 210 160 L 220 160" fill="#1e40af"/>
+          <text x="55" y="163" font-size="13" fill="#1e3a8a" font-weight="700">θ</text>
+          <text x="135" y="185" text-anchor="middle" font-size="13" fill="#374151">鄰邊 b</text>
+          <text x="227" y="133" font-size="13" fill="#374151" text-anchor="middle">對邊 a</text>
+          <text x="145" y="88" font-size="13" fill="#374151" text-anchor="middle">斜邊 c</text>
+          <text id="triTheta" x="60" y="150" font-size="14" fill="#1e40af" font-weight="700">θ = 30°</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 單元 7 ========== -->
+  <section id="unit-7" class="tab-panel">
+    <h2>單元 7：製作說明與 Prompt</h2>
+
+    <div class="card">
+      <h3>7.1 使用的 AI 模型</h3>
+      <table>
+        <tr><th style="text-align:left">模型</th><th style="text-align:left">定位</th></tr>
+        <tr><td><strong>第一模型：Gemma 4 26B</strong></td><td>負責教學內容規劃、單元架構、文字解說與習題設計。</td></tr>
+        <tr><td><strong>第二模型：Qwen 3</strong></td><td>負責 HTML/CSS/JavaScript 程式碼實作、互動計算機邏輯、SVG 圖形繪製與頁面排版。</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>7.2 製作流程說明</h3>
+      <ol>
+        <li>以 Gemma 4 26B 撰寫教學大綱與各單元的繁體中文內容，確保由淺入深、適合新手。</li>
+        <li>以 Qwen 3 將內容轉為單一自包含 HTML，內嵌 CSS 與純 JavaScript 互動，不依賴任何外部資源。</li>
+        <li>所有圖形皆以 SVG 程式碼直接寫入 HTML，離線開啟即可完整顯示。</li>
+        <li>加入分頁籤切換、複製按鈕、計算機與小測驗等互動功能。</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h3>7.3 製作這個教材的 Prompt</h3>
+      <p>以下是用來生成本教材的完整提示詞（Prompt），你可以複製後依需求修改：</p>
+      <pre id="prompt-code"># 製作繁體中文三角函數教學網頁
+
+請協助製作一份「三角函數教學與運用」的單一自包含 HTML 教學網頁，需滿足以下條件：
+
+1. 檔案格式：單一 HTML 檔，內嵌 CSS 與 JavaScript，圖片全部以 SVG 程式碼直接內嵌（<svg> 標籤），離線開啟即可完整顯示，不得引用任何外部圖片 URL、外部 CSS 或外部 JavaScript CDN。
+
+2. 頁面結構：頂部設有分頁籤（Tabs），可切換不同單元，包含：首頁、單元 1 角度與三角函數定義、單元 2 單位圓與弧度、單元 3 三角恆等式、單元 4 三角函數圖像、單元 5 實際運用與應用題、單元 6 互動計算機、單元 7 製作說明與 Prompt。
+
+3. 內容要求：能讓完全沒有基礎的新手從初學一路做到成功計算。須涵蓋角度定義（度數/弧度）、直角三角形三邊名稱、sin/cos/tan 定義、SOH CAH TOA 口訣、範例計算、單位圓幾何意義、特殊角值表、基本恆等式（sin²+cos²=1）、加法公式、雙角公式、正餘弦圖像與週期/振幅、實際應用題（如樹高測量）。
+
+4. 互動功能：
+   - 每個公式區塊旁設「📋 複製」按鈕，可將公式複製到剪貼簿。
+   - 直角三角形動態繪圖：輸入角度與邊長，SVG 即時更新三角形形狀與標籤。
+   - 單位圓互動：點擊圓周，即時顯示 (cos θ, sin θ) 座標與角度。
+   - 正弦波 SVG/Canvas 動畫。
+   - 三角函數數值計算機、反三角函數計算機（arcsin）、直角三角形解題器。
+   - 即時回饋的恆等式小測驗（選擇題，答對/錯顯示不同顏色訊息）。
+
+5. 首頁須顯示：國立清華大學數理教育研究所 研究生 陳紫妍。
+
+6. 語言：繁體中文，語氣溫和鼓勵，適合高中生與大一新生。
+
+7. 在「單元 7 製作說明與 Prompt」中說明：本教材由第一模型 Gemma 4 26B 與第二模型 Qwen 3 協助製作；所有圖示皆以 SVG 內嵌，未使用本機截圖（AI 無法存取使用者本機螢幕），亦不引用外部圖片；若未來需加入本機 OpenCode 畫面，請由使用者自行擷取並替換，切勿偽標「官方文件」或「本機畫面」。</pre>
+      <div class="copy-row"><button class="btn" onclick="copyText(this, document.getElementById('prompt-code').textContent)">📋 複製整段 Prompt</button></div>
+    </div>
+
+    <div class="card" style="background:#fffbeb; border-color:#f59e0b;">
+      <h3>⚠️ 圖片來源聲明（重要）</h3>
+      <p>本教材所有圖示（直角三角形、單位圓、正弦波等）皆以 <strong>SVG 純程式碼內嵌</strong>於本 HTML 檔中，<strong>未引用任何外部圖片 URL</strong>，離線開啟也能完整顯示。</p>
+      <p>由於我作為 AI 助手，<strong>無法存取你本機的螢幕或 OpenCode 實際畫面</strong>，因此本教材<strong>未使用本機 OpenCode 截圖</strong>。若你日後希望加入本機實際畫面，請自行擷取截圖並替換，切勿將其他來源的截圖偽標示為「本機畫面」或「官方文件」，以保持資料誠實。</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>製作：國立清華大學 數理教育研究所 研究生 陳紫妍</p>
+  <p>本教材為單一自包含 HTML 檔，所有圖形皆以 SVG 內嵌，離線開啟即可使用，不依賴網路或外部圖片。</p>
+</footer>
+
+<script>
+  /* ---------- 分頁籤切換 ---------- */
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      this.classList.add('active');
+      document.getElementById(this.dataset.target).classList.add('active');
+      if (this.dataset.target === 'unit-4') startSine(); else stopSine();
+    });
+  });
+
+  /* ---------- 複製到剪貼簿 ---------- */
+  window.copyText = function (btn, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = '✅ 已複製';
+      setTimeout(() => { btn.textContent = orig; }, 1200);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const orig = btn.textContent;
+      btn.textContent = '✅ 已複製';
+      setTimeout(() => { btn.textContent = orig; }, 1200);
+    });
+  };
+
+  /* ---------- 單元 1 互動：直角三角形 ---------- */
+  function calcEx1() {
+    const deg = parseFloat(document.getElementById('ex1-angle').value);
+    const hyp = parseFloat(document.getElementById('ex1-hyp').value);
+    if (isNaN(deg) || isNaN(hyp) || hyp <= 0) { alert('請輸入正確的角度與斜邊長度'); return; }
+    const rad = deg * Math.PI / 180;
+    const opp = hyp * Math.sin(rad);
+    const adj = hyp * Math.cos(rad);
+    document.getElementById('ex1-result').innerHTML =
+      `sin ${deg}° = ${Math.sin(rad).toFixed(4)} → 對邊 = ${hyp} × sin ${deg}° = <strong>${opp.toFixed(3)} cm</strong><br>` +
+      `cos ${deg}° = ${Math.cos(rad).toFixed(4)} → 鄰邊 = ${hyp} × cos ${deg}° = <strong>${adj.toFixed(3)} cm</strong>`;
+    const scale = 130 / hyp;
+    const bx = 50 + adj * scale;
+    const ay = 150 - opp * scale;
+    document.getElementById('ex1-path').setAttribute('d', `M 50 150 L ${bx} 150 L ${bx} ${ay} Z`);
+    document.getElementById('ex1-label').textContent = `θ = ${deg}°`;
+  }
+
+  /* ---------- 單元 2 互動：單位圓 ---------- */
+  function handleCircleClick(evt) {
+    const svg = document.getElementById('unitCircle');
+    const pt = svg.createSVGPoint();
+    pt.x = evt.clientX;
+    pt.y = evt.clientY;
+    const svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
+    let x = svgP.x, y = svgP.y;
+    const r = Math.hypot(x, y);
+    if (r === 0) return;
+    x /= r; y /= r; // 投影到單位圓
+    const deg = ((Math.atan2(y, x) * 180 / Math.PI) + 360) % 360;
+    document.getElementById('ucPoint').setAttribute('cx', x);
+    document.getElementById('ucPoint').setAttribute('cy', y);
+    document.getElementById('ucLine').setAttribute('x2', x);
+    document.getElementById('ucLine').setAttribute('y2', y);
+    document.getElementById('ucText').setAttribute('x', x + 0.05);
+    document.getElementById('ucText').setAttribute('y', y - 0.05);
+    document.getElementById('ucText').textContent = `(${x.toFixed(3)}, ${y.toFixed(3)})`;
+    document.getElementById('ucDeg').textContent = `θ = ${deg.toFixed(1)}°`;
+    document.getElementById('uc-info').innerHTML = `cos θ = ${x.toFixed(4)}<br>sin θ = ${y.toFixed(4)}`;
+  }
+
+  /* ---------- 單元 4 互動：正弦波動畫 ---------- */
+  let sineRaf = null;
+  function startSine() {
+    const canvas = document.getElementById('sineCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, h = canvas.height;
+    let t = 0;
+    function frame() {
+      ctx.clearRect(0, 0, w, h);
+      ctx.strokeStyle = '#2563eb';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      for (let x = 0; x <= w; x++) {
+        const y = h / 2 + 45 * Math.sin((x / w) * Math.PI * 4 - t);
+        if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      t += 0.04;
+      sineRaf = requestAnimationFrame(frame);
+    }
+    frame();
+  }
+  function stopSine() {
+    if (sineRaf) { cancelAnimationFrame(sineRaf); sineRaf = null; }
+  }
+
+  /* ---------- 單元 6 互動：計算機 ---------- */
+  function calcValues() {
+    const v = parseFloat(document.getElementById('calc-angle').value);
+    const unit = document.getElementById('calc-unit').value;
+    if (isNaN(v)) { alert('請輸入數字'); return; }
+    const rad = unit === 'deg' ? v * Math.PI / 180 : v;
+    const deg = unit === 'deg' ? v : v * 180 / Math.PI;
+    const s = Math.sin(rad), c = Math.cos(rad);
+    let t = Math.tan(rad);
+    const tanTxt = Math.abs(c) < 1e-10 ? '無定義' : t.toFixed(6);
+    document.getElementById('calc-result').innerHTML =
+      `角度：${deg.toFixed(4)}°（${rad.toFixed(6)} rad）<br>` +
+      `sin = ${s.toFixed(6)}<br>` +
+      `cos = ${c.toFixed(6)}<br>` +
+      `tan = ${tanTxt}`;
+  }
+  function calcAsin() {
+    const v = parseFloat(document.getElementById('asin-val').value);
+    if (isNaN(v) || v < -1 || v > 1) { alert('請輸入 −1 到 1 之間的數字'); return; }
+    const rad = Math.asin(v);
+    document.getElementById('asin-result').innerHTML =
+      `arcsin(${v}) = ${rad.toFixed(6)} rad = <strong>${(rad * 180 / Math.PI).toFixed(4)}°</strong>`;
+  }
+  function calcTriangle() {
+    const c = parseFloat(document.getElementById('tri-c').value);
+    const deg = parseFloat(document.getElementById('tri-a').value);
+    if (isNaN(c) || c <= 0 || isNaN(deg) || deg <= 0 || deg >= 90) {
+      alert('請輸入 c > 0 與 0 ＜ θ ＜ 90'); return;
+    }
+    const rad = deg * Math.PI / 180;
+    const a = c * Math.sin(rad);
+    const b = c * Math.cos(rad);
+    document.getElementById('tri-result').innerHTML =
+      `對邊 a = c × sin θ = ${c} × sin ${deg}° = <strong>${a.toFixed(3)}</strong><br>` +
+      `鄰邊 b = c × cos θ = ${c} × cos ${deg}° = <strong>${b.toFixed(3)}</strong>`;
+    const scale = 130 / c;
+    const bx = 50 + b * scale;
+    const ay = 170 - a * scale;
+    document.getElementById('triPath').setAttribute('d', `M 50 170 L ${bx} 170 L ${bx} ${ay} Z`);
+    document.getElementById('triTheta').textContent = `θ = ${deg}°`;
+  }
+  function calcHeight() {
+    const d = parseFloat(document.getElementById('h-dist').value);
+    const ang = parseFloat(document.getElementById('h-angle').value);
+    const eye = parseFloat(document.getElementById('h-eye').value);
+    if (isNaN(d) || isNaN(ang) || isNaN(eye) || d <= 0) { alert('請輸入正確數字'); return; }
+    const above = d * Math.tan(ang * Math.PI / 180);
+    const total = above + eye;
+    document.getElementById('h-result').innerHTML =
+      `tan ${ang}° = ${Math.tan(ang * Math.PI / 180).toFixed(4)}<br>` +
+      `樹上部分 = ${d} × tan ${ang}° = ${above.toFixed(2)} 米<br>` +
+      `總高度 = ${above.toFixed(2)} + ${eye} = <strong>${total.toFixed(2)} 米</strong>`;
+  }
+
+  /* ---------- 單元 3 測驗 ---------- */
+  function checkQuiz(qid, correct) {
+    const radios = document.getElementsByName(qid);
+    let selected = '';
+    radios.forEach(r => { if (r.checked) selected = r.value; });
+    const fb = document.getElementById(qid + '-fb');
+    if (!selected) { fb.textContent = '請先選擇一個選項'; fb.className = 'feedback wrong'; return; }
+    if (selected === correct) { fb.textContent = '✅ 正確！'; fb.className = 'feedback correct'; }
+    else { fb.textContent = '❌ 不對，再仔細看一次公式喔'; fb.className = 'feedback wrong'; }
+  }
+</script>
+
+</body>
+</html>
